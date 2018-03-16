@@ -1,17 +1,25 @@
 #!/bin/bash
-function start {
-  cd "$HOME/src/superdesk${1}/server" && \
-    . $HOME/.pyvenv/bin/activate && \
-    honcho start &
 
-  echo $! > /tmp/superdesk-server-pid
-
+function client  {
   cd $HOME/src/superdesk-client-core && \
     npx grunt &
 
   echo $! > /tmp/superdesk-client-pid
 
   open http://localhost:9000
+}
+
+function server {
+  cd "$HOME/src/superdesk${1}/server" && \
+    . $HOME/.pyvenv/bin/activate && \
+    honcho start &
+
+  echo $! > /tmp/superdesk-server-pid
+}
+
+function start {
+  server
+  client
 }
 
 function stop {
