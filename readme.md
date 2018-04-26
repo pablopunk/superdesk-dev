@@ -4,4 +4,6 @@ superdesk-dev status
 superdesk-dev start
 superdesk-dev restart
 superdesk-dev stop
+superdesk-dev fake-server
 ```
+
