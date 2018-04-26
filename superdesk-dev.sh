@@ -1,6 +1,6 @@
 #!/bin/bash
 
-function client  {
+function client {
   cd $HOME/src/superdesk-client-core && \
     npx grunt &
 
@@ -43,5 +43,5 @@ function restart {
   start $1
 }
 
-# Execute the function $1 witb the argument $2
+# Execute the function $1 with the argument $2
 $1 $2
