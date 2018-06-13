@@ -4,6 +4,6 @@ superdesk-dev status
 superdesk-dev start
 superdesk-dev restart
 superdesk-dev stop
-superdesk-dev fake-server
+superdesk-dev fake-server [ -master | cpr-2371 | <other-build> ]
 ```
 

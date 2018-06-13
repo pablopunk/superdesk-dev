@@ -8,8 +8,12 @@ function client {
 }
 
 function fake-server {
+  where="-master"
+  if [ ! -z "$1" ]; then
+    where="$1"
+  fi
   cd $HOME/src/superdesk-client-core && \
-    npx grunt --server=https://sd-master.test.superdesk.org/api --ws=wss://sd-master.test.superdesk.org/ws &
+    npx grunt --server=https://sd$where.test.superdesk.org/api --ws=wss://sd$where.test.superdesk.org/ws &
 
   open http://localhost:9000
 }
