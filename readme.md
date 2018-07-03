@@ -1,9 +1,9 @@
 ```sh
-ln -sf $PWD/superdesk-dev.sh /usr/local/bin/superdesk-dev
-superdesk-dev status
-superdesk-dev start
-superdesk-dev restart
-superdesk-dev stop
-superdesk-dev fake-server [ -master | cpr-2371 | <other-build> ]
+ln -sf $PWD/superdesk-dev.sh /usr/local/bin/sd
+sd status
+sd start
+sd restart
+sd stop
+sd fake-server [ -master | cpr-2371 | <other-build> ]
 ```
 
