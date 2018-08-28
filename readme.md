@@ -1,5 +1,5 @@
 ```sh
-ln -sf $PWD/superdesk-dev.sh /usr/local/bin/sd
+./install.sh
 sd status
 sd start
 sd restart
