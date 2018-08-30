@@ -12,10 +12,11 @@ function fake-server {
   if [ ! -z "$1" ]; then
     where="$1"
   fi
-  cd $HOME/src/superdesk-client-core && \
-    npx grunt --server=https://sd$where.test.superdesk.org/api --ws=wss://sd$where.test.superdesk.org/ws &
 
   open http://localhost:9000
+
+  cd $HOME/src/superdesk-client-core && \
+    npx grunt --server=https://sd$where.test.superdesk.org/api --ws=wss://sd$where.test.superdesk.org/ws
 }
 
 function server {
