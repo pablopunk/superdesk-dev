@@ -1,5 +1,5 @@
 ```sh
-./install.sh
+./install.sh # requires sudo permissions
 sd status
 sd start
 sd restart
