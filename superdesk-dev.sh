@@ -1,10 +1,16 @@
 #!/bin/bash
 
+function open_if_mac {
+  if [ "$(uname)" == "Darwin" ]; then
+    open http://localhost:9000
+  fi
+}
+
 function client {
   cd $HOME/src/superdesk-client-core && \
     npx grunt &
 
-  open http://localhost:9000
+  open_if_mac
 }
 
 function fake-server {
@@ -13,7 +19,7 @@ function fake-server {
     where="$1"
   fi
 
-  open http://localhost:9000
+  open_if_mac
 
   cd $HOME/src/superdesk-client-core && \
     npx grunt --server=https://sd$where.test.superdesk.org/api --ws=wss://sd$where.test.superdesk.org/ws
