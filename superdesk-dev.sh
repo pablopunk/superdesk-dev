@@ -1,16 +1,32 @@
 #!/bin/bash
 
-function open_if_mac {
-  if [ "$(uname)" == "Darwin" ]; then
-    open http://localhost:9000
-  fi
+# *nix
+if [ "$(uname)" = "Linux"  ]
+then
+  linux=1
+else
+  mac=1
+fi
+
+function is_mac {
+  [ "$mac" = "1"  ]
+}
+
+function is_linux {
+  [ "$linux" = "1"  ]
+}
+
+function open_browser {
+  cmd="open"
+  if is_linux; then cmd="xdg-open"; fi
+  $cmd http://localhost:9000
 }
 
 function client {
   cd $HOME/src/superdesk-client-core && \
     npx grunt &
 
-  open_if_mac
+  open_browser
 }
 
 function fake-server {
@@ -19,15 +35,16 @@ function fake-server {
     where="$1"
   fi
 
-  open_if_mac
+  open_browser
 
   cd $HOME/src/superdesk-client-core && \
     npx grunt --server=https://sd$where.test.superdesk.org/api --ws=wss://sd$where.test.superdesk.org/ws
 }
 
 function server {
-  cd "$HOME/src/superdesk${1}/server" && \
-    . $HOME/.pyvenv/bin/activate && \
+  if is_mac; then . $HOME/.pyvenv/bin/activate; fi
+
+  cd "$HOME/src/superdesk${1}/server" &&\
     honcho start &
 }
 
@@ -37,14 +54,20 @@ function start {
 }
 
 function stop {
-  ps aux | grep [p]yvenv | tr -s ' ' | cut -d' ' -f2 | xargs kill -9
-  ps aux | grep [w]s.py | tr -s ' ' | cut -d' ' -f2 | xargs kill -9
+  if is_mac; then
+    ps aux | grep [p]yvenv | tr -s ' ' | cut -d' ' -f2 | xargs kill -9
+    ps aux | grep [w]s.py | tr -s ' ' | cut -d' ' -f2 | xargs kill -9
+  fi
+
+  sudo killall honcho
   killall grunt
 }
 
 function status {
   server=$(ps aux | grep [p]yvenv)
+  if is_linux; then server=$(ps aux | grep honcho); fi
   ( [ ! -z "$server" ] && echo "Server up" ) || echo "Server down"
+
   client=$(ps aux | grep [g]runt)
   ( [ ! -z "$client" ] && echo "Client up" ) || echo "Client down"
 }
