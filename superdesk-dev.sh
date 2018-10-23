@@ -1,5 +1,8 @@
 #!/bin/bash
 
+client_core="$HOME/src/superdesk-client-core"
+superdesk="$HOME/src/superdesk"
+
 # *nix
 if [ "$(uname)" = "Linux"  ]
 then
@@ -23,7 +26,7 @@ function open_browser {
 }
 
 function client {
-  cd $HOME/src/superdesk-client-core && \
+  cd $client_core && \
     npx grunt &
 
   open_browser
@@ -37,14 +40,21 @@ function fake-server {
 
   open_browser
 
-  cd $HOME/src/superdesk-client-core && \
+  cd $client_core && \
     npx grunt --server=https://sd$where.test.superdesk.org/api --ws=wss://sd$where.test.superdesk.org/ws
+}
+
+function test-server {
+  open_browser
+
+  cd $client_core && \
+    npm start-test-server
 }
 
 function server {
   if is_mac; then . $HOME/.pyvenv/bin/activate; fi
 
-  cd "$HOME/src/superdesk${1}/server" &&\
+  cd "$superdesk${1}/server" && \
     honcho start &
 }
 
