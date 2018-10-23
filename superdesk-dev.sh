@@ -67,9 +67,9 @@ function start {
 function stop {
   if is_mac; then
     ps aux | grep [p]yvenv | tr -s ' ' | cut -d' ' -f2 | xargs kill -9
-    ps aux | grep [w]s.py | tr -s ' ' | cut -d' ' -f2 | xargs kill -9
   fi
 
+  ps aux | grep [w]s.py | tr -s ' ' | cut -d' ' -f2 | xargs kill -9
   ps aux | grep wsgi | tr -s ' ' | cut -d' ' -f2 | xargs kill -9
   sudo killall honcho
   killall grunt
