@@ -69,6 +69,7 @@ function stop {
     ps aux | grep [w]s.py | tr -s ' ' | cut -d' ' -f2 | xargs kill -9
   fi
 
+  ps aux | grep wsgi | tr -s ' ' | cut -d' ' -f2 | xargs kill -9
   sudo killall honcho
   killall grunt
 }
