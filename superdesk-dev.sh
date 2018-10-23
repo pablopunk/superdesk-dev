@@ -48,7 +48,7 @@ function test-server {
   open_browser
 
   cd $client_core && \
-    npm start-test-server
+    npm run start-test-server
 }
 
 function server {
