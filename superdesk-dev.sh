@@ -65,6 +65,7 @@ function test {
 }
 
 function kill {
+  killall grunt
   ps aux | grep ws.py | cut -d ' ' -f2 | xargs kill -9
 }
 
