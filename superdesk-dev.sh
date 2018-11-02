@@ -32,8 +32,8 @@ function client {
   open_browser
 }
 
-function fake-server {
-  where="-master"
+function remote {
+  where="sd-master"
   if [ ! -z "$1" ]; then
     where="$1"
   fi
@@ -41,51 +41,35 @@ function fake-server {
   open_browser
 
   cd $client_core && \
-    npx grunt --server=https://sd$where.test.superdesk.org/api --ws=wss://sd$where.test.superdesk.org/ws
+    grunt $where
 }
 
-function test-server {
+function grunt {
   cd $client_core && \
-    npm run start-test-server &
-  client
+    npx grunt --server=https://$2.test.superdesk.org/api --ws=wss://$2.test.superdesk.org/ws
+}
+
+function e2e {
+  cd $client_core && \
+    npm run protractor
+}
+
+function unit {
+  cd $client_core && \
+    npm test
+}
+
+function test {
+  cd $client_core && \
+    npm run start-test-server
 }
 
 function server {
   if is_mac; then . $HOME/.pyvenv/bin/activate; fi
 
-  cd "$superdesk${1}/server" && \
-    honcho start &
+  cd "$superdesk/server" && \
+    honcho start
 }
 
-function start {
-  server && \
-    client
-}
-
-function stop {
-  if is_mac; then
-    ps aux | grep [p]yvenv | tr -s ' ' | cut -d' ' -f2 | xargs kill -9
-  fi
-
-  ps aux | grep [w]s.py | tr -s ' ' | cut -d' ' -f2 | xargs kill -9
-  ps aux | grep wsgi | tr -s ' ' | cut -d' ' -f2 | xargs kill -9
-  sudo killall honcho
-  killall grunt
-}
-
-function status {
-  server=$(ps aux | grep [p]yvenv)
-  if is_linux; then server=$(ps aux | grep honcho); fi
-  ( [ ! -z "$server" ] && echo "Server up" ) || echo "Server down"
-
-  client=$(ps aux | grep [g]runt)
-  ( [ ! -z "$client" ] && echo "Client up" ) || echo "Client down"
-}
-
-function restart {
-  stop
-  start $1
-}
-
-# Execute the function $1 with the argument $2
-$1 $2
+# Execute
+$@
