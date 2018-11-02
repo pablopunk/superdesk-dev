@@ -64,6 +64,10 @@ function test {
     npm run start-test-server
 }
 
+function kill {
+  ps aux | grep ws.py | cut -d ' ' -f2 | xargs kill -9
+}
+
 function server {
   if is_mac; then . $HOME/.pyvenv/bin/activate; fi
 
