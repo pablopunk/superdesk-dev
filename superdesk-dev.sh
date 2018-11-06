@@ -26,10 +26,10 @@ function open_browser {
 }
 
 function client {
-  cd $client_core && \
-    npx grunt &
-
   open_browser
+
+  cd $client_core && \
+    npx grunt
 }
 
 function remote {
