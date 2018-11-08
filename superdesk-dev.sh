@@ -46,7 +46,7 @@ function remote {
 
 function grunt {
   cd $client_core && \
-    npx grunt --server=https://$2.test.superdesk.org/api --ws=wss://$2.test.superdesk.org/ws
+    npx grunt --server=https://$1.test.superdesk.org/api --ws=wss://$1.test.superdesk.org/ws
 }
 
 function e2e {
