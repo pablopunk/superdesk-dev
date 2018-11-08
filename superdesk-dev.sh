@@ -65,8 +65,8 @@ function test {
 }
 
 function kill {
-  killall grunt
-  ps aux | grep ws.py | cut -d ' ' -f2 | xargs kill -9
+  # sometimes ws doesn't finish
+  ps aux | grep ws.py | awk '{print $2}' | xargs kill -9
 }
 
 function server {
