@@ -76,16 +76,31 @@ function server {
     honcho start
 }
 
+function pr {
+  echo "  $1"
+  echo
+}
+
 function help {
-  echo "sd help   # show this help"
-  echo "sd client # start the client"
-  echo "sd server # start the server"
-  echo "sd grunt  # start grunt with custom server"
-  echo "sd remote # start grunt with custom server set to sd-master"
-  echo "sd test   # run local test-server"
-  echo "sd e2e    # run e2e tests"
-  echo "sd unit   # run unit tests"
-  echo "sd kill   # kill remaing ws processes"
+  echo
+  pr "- Show this help"
+  pr "sd help"
+  pr "- Start the client"
+  pr "sd client"
+  pr "- Start the server"
+  pr "sd server"
+  pr "- Start the client with a custom server (e.g sd-master)"
+  pr "sd grunt <server-id>"
+  pr "- Start the client with sd-master as server"
+  pr "sd remote"
+  pr "- Start the local server for tests"
+  pr "sd test"
+  pr "- Run e2e tests"
+  pr "sd e2e"
+  pr "- Run unit tests"
+  pr "sd unit"
+  pr "- Kill remaining ws processes"
+  pr "sd kill"
 }
 
 # Execute
