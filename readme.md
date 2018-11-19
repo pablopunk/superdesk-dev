@@ -26,7 +26,7 @@ $ ./install.sh
 
   # Start the client with a custom server (e.g sd#master)
 
-  sd grunt <server#id>
+  sd grunt <server-id>
 
   # Start the client with sd#master as server
 
