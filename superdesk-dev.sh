@@ -1,15 +1,7 @@
 #!/bin/bash
 
-client_core="$HOME/src/superdesk-client-core"
-superdesk="$HOME/src/superdesk"
-
 # *nix
-if [ "$(uname)" = "Linux"  ]
-then
-  linux=1
-else
-  mac=1
-fi
+[[ "$(uname)" = "Linux" ]] && linux=1 || mac=1
 
 function is_mac {
   [ "$mac" = "1"  ]
@@ -21,47 +13,34 @@ function is_linux {
 
 function open_browser {
   cmd="open"
-  if is_linux; then cmd="xdg-open"; fi
+  is_linux && cmd="xdg-open"
   $cmd http://localhost:9000
 }
 
 function client {
   open_browser
-
-  cd $client_core && \
-    npx grunt
+  npx grunt
 }
 
 function remote {
-  where="sd-master"
-  if [ ! -z "$1" ]; then
-    where="$1"
-  fi
-
   open_browser
-
-  cd $client_core && \
-    grunt $where
+  grunt sd-master
 }
 
 function grunt {
-  cd $client_core && \
-    npx grunt --server=https://$1.test.superdesk.org/api --ws=wss://$1.test.superdesk.org/ws
+  npx grunt --server=https://$1.test.superdesk.org/api --ws=wss://$1.test.superdesk.org/ws
 }
 
 function e2e {
-  cd $client_core && \
-    npm run protractor
+  npm run protractor
 }
 
 function unit {
-  cd $client_core && \
-    npm test
+  npm test
 }
 
 function test {
-  cd $client_core && \
-    npm run start-test-server
+  npm run start-test-server
 }
 
 function kill {
@@ -70,10 +49,8 @@ function kill {
 }
 
 function server {
-  if is_mac; then . $HOME/.pyvenv/bin/activate; fi
-
-  cd "$superdesk/server" && \
-    honcho start
+  is_mac && . $HOME/.pyvenv/bin/activate
+  honcho start
 }
 
 function pr {
