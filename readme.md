@@ -24,11 +24,11 @@ $ ./install.sh
 
   sd server
 
-  # Start the client with a custom server (e.g sd#master)
+  # Start the client with a custom server (e.g sd-master)
 
   sd grunt <server-id>
 
-  # Start the client with sd#master as server
+  # Start the client with sd-master as server
 
   sd remote
 
