@@ -44,8 +44,8 @@ function test {
 }
 
 function kill {
-  # sometimes ws doesn't finish
   ps aux | grep ws.py | awk '{print $2}' | xargs kill -9
+  killall gunicorn
 }
 
 function server {
