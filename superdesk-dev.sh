@@ -76,7 +76,7 @@ function help {
   pr "sd e2e"
   pr "- Run unit tests"
   pr "sd unit"
-  pr "- Kill remaining ws processes"
+  pr "- Kill remaining server processes"
   pr "sd kill"
 }
 
