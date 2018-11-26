@@ -12,8 +12,9 @@ function is_linux {
 }
 
 function open_browser {
-  cmd="open"
-  is_linux && cmd="xdg-open"
+  cmd=open
+  is_linux && cmd=xdg-open
+  [ -z "$DISPLAY" ] && cmd=echo
   $cmd http://localhost:9000
 }
 
