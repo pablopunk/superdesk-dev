@@ -54,6 +54,10 @@ function server {
   honcho start
 }
 
+function vps {
+  npx grunt --ws=wss://sd.pablovarela.ga/ws --server=https://sd.pablovarela.ga/api
+}
+
 function pr {
   echo "  $1"
   echo
@@ -69,6 +73,8 @@ function help {
   pr "sd server"
   pr "- Start the client with a custom server (e.g sd-master)"
   pr "sd grunt <server-id>"
+  pr "- Start the client with localhost as a server but with SSL"
+  pr "sd vps"
   pr "- Start the client with sd-master as server"
   pr "sd remote"
   pr "- Start the local server for tests"
