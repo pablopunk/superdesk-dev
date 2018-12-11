@@ -2,10 +2,8 @@
 
 ## Install
 
-Requires sudo permissions:
-
 ```bash
-$ ./install.sh
+$ sudo ./install.sh
 ```
 
 ## Usage
