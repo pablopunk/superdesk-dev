@@ -54,10 +54,6 @@ function server {
   honcho start
 }
 
-function vps {
-  npx grunt --ws=wss://sd.pablovarela.ga/ws --server=https://sd.pablovarela.ga/api
-}
-
 function pr {
   echo "  $1"
   echo
