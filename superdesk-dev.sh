@@ -49,6 +49,16 @@ function kill {
   killall gunicorn
 }
 
+function drop_database {
+  mongo --eval "db.dropDatabase();" superdesk
+}
+
+function prepopulate {
+  ls -d $HOME/src/superdesk$1/server && \
+    python3 $HOME/src/superdesk$1/server/manage.py app:initialize_data && \
+    python3 $HOME/src/superdesk$1/server/manage.py app:prepopulate
+}
+
 function server {
   is_mac && . $HOME/.pyvenv/bin/activate
   honcho start
@@ -81,6 +91,10 @@ function help {
   pr "sd unit"
   pr "- Kill remaining server processes"
   pr "sd kill"
+  pr "- Drop superdesk database"
+  pr "sd drop_database"
+  pr "- Initialize data and prepopulate for a specific project (e.g -belga)"
+  pr "sd prepopulate <-project>"
 }
 
 # Execute
