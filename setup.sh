@@ -3,7 +3,7 @@
 
 if [[ "$(uname)" == "Darwin" ]]
 then
-  brew cask install homebrew/cask-versions/java8
+  brew cask install homebrew/cask-versions/adoptopenjdk8
   brew install mongodb elasticsearch@2.4 redis python3 node jpeg
   brew services start redis
   brew services start mongo
