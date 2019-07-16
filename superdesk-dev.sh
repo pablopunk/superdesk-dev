@@ -56,7 +56,8 @@ function drop_database {
 function prepopulate {
   ls -d $HOME/src/superdesk$1/server && \
     python3 $HOME/src/superdesk$1/server/manage.py app:initialize_data && \
-    python3 $HOME/src/superdesk$1/server/manage.py app:prepopulate
+    python3 $HOME/src/superdesk$1/server/manage.py app:prepopulate && \
+    python3 $HOME/src/superdesk$1/server/manage.py app:index_from_mongo --all
 }
 
 function server {
