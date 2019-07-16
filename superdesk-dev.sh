@@ -53,11 +53,18 @@ function drop_database {
   mongo --eval "db.dropDatabase();" superdesk
 }
 
-function prepopulate {
+function deps {
   ls -d $HOME/src/superdesk$1/server && \
-    python3 $HOME/src/superdesk$1/server/manage.py app:initialize_data && \
-    python3 $HOME/src/superdesk$1/server/manage.py app:prepopulate && \
-    python3 $HOME/src/superdesk$1/server/manage.py app:index_from_mongo --all
+    pip install -r $HOME/src/superdesk$1/server/requirements.txt && \
+    cd $HOME/src/superdesk$1/client && npm i
+}
+
+function prepopulate {
+  pyenv global 3.5.7
+  ls -d $HOME/src/superdesk$1/server && \
+    python $HOME/src/superdesk$1/server/manage.py app:initialize_data && \
+    python $HOME/src/superdesk$1/server/manage.py app:prepopulate && \
+    python $HOME/src/superdesk$1/server/manage.py app:index_from_mongo --all
 }
 
 function server {
@@ -92,6 +99,8 @@ function help {
   pr "sd unit"
   pr "- Kill remaining server processes"
   pr "sd kill"
+  pr "Install dependencies for a project (e.g -planning)"
+  pr "sd deps <-project>"
   pr "- Drop superdesk database"
   pr "sd drop_database"
   pr "- Initialize data and prepopulate for a specific project (e.g -belga)"
