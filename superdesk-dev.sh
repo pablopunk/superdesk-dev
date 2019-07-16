@@ -54,17 +54,21 @@ function drop_database {
 }
 
 function deps {
-  ls -d $HOME/src/superdesk$1/server && \
-    pip install -r $HOME/src/superdesk$1/server/requirements.txt && \
-    cd $HOME/src/superdesk$1/client && npm i
+  if [ ! -z "$1" ]; then
+    ls -d $HOME/src/superdesk$1/server && \
+      pip3 install -r $HOME/src/superdesk$1/server/requirements.txt && \
+      cd $HOME/src/superdesk$1/client && npm i
+  else
+    cd $HOME/src/superdesk-client-core && npm i && \
+      cd $HOME/src/superdesk/server && pip3 install -r requirements.txt
+  fi
 }
 
 function prepopulate {
-  pyenv global 3.5.7
   ls -d $HOME/src/superdesk$1/server && \
-    python $HOME/src/superdesk$1/server/manage.py app:initialize_data && \
-    python $HOME/src/superdesk$1/server/manage.py app:prepopulate && \
-    python $HOME/src/superdesk$1/server/manage.py app:index_from_mongo --all
+    python3 $HOME/src/superdesk$1/server/manage.py app:initialize_data && \
+    python3 $HOME/src/superdesk$1/server/manage.py app:prepopulate && \
+    python3 $HOME/src/superdesk$1/server/manage.py app:index_from_mongo --all
 }
 
 function server {
