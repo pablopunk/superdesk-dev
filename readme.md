@@ -2,8 +2,10 @@
 
 ## Install
 
+Requires `sudo`
+
 ```bash
-$ sudo ./install.sh
+$ ./install.sh
 ```
 
 ## Usage

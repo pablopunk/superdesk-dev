@@ -81,6 +81,10 @@ function pr {
   echo
 }
 
+function timetrack {
+  ./timetrack/index.js
+}
+
 function help {
   echo
   pr "- Show this help"
@@ -109,6 +113,8 @@ function help {
   pr "sd drop_database"
   pr "- Initialize data and prepopulate for a specific project (e.g -belga)"
   pr "sd prepopulate <-project>"
+  pr "- Show your commits from all projects"
+  pr "sd timetrack"
 }
 
 # Execute
