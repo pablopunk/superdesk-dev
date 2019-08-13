@@ -113,8 +113,8 @@ function help {
   pr "sd drop_database"
   pr "- Initialize data and prepopulate for a specific project (e.g -belga)"
   pr "sd prepopulate <-project>"
-  pr "- Show your commits from all projects"
-  pr "sd timetrack"
+  pr "- Show your commits from all projects (use 'last' argument for last month period)"
+  pr "sd timetrack <last>"
 }
 
 # Execute
