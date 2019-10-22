@@ -49,7 +49,7 @@ function kill {
   killall gunicorn
 }
 
-function drop_database {
+function wipe {
   mongo --eval "db.dropDatabase();" superdesk
 }
 
@@ -110,7 +110,7 @@ function help {
   pr "Install dependencies for a project (e.g -planning)"
   pr "sd deps <-project>"
   pr "- Drop superdesk database"
-  pr "sd drop_database"
+  pr "sd wipe"
   pr "- Initialize data and prepopulate for a specific project (e.g -belga)"
   pr "sd prepopulate <-project>"
   pr "- Show your commits from all projects (use 'last' argument for last month period)"
