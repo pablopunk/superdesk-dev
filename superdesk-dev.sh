@@ -64,7 +64,7 @@ function deps {
   fi
 }
 
-function prepopulate {
+function populate {
   ls -d $HOME/src/superdesk$1/server && \
     python3 $HOME/src/superdesk$1/server/manage.py app:initialize_data && \
     python3 $HOME/src/superdesk$1/server/manage.py app:prepopulate && \
@@ -111,8 +111,8 @@ function help {
   pr "sd deps <-project>"
   pr "- Drop superdesk database"
   pr "sd wipe"
-  pr "- Initialize data and prepopulate for a specific project (e.g -belga)"
-  pr "sd prepopulate <-project>"
+  pr "- Initialize data and populate for a specific project (e.g -belga)"
+  pr "sd populate <-project>"
   pr "- Show your commits from all projects (use 'last' argument for last month period)"
   pr "sd timetrack <last>"
 }
