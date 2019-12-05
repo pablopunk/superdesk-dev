@@ -28,7 +28,7 @@ else
     apt install -y \
       mongodb-server \
       redis-server \
-      oracle-java8-installer \
+      openjdk-8-jre \
       elasticsearch \
       libxmlsec1-dev \
       pkg-config
