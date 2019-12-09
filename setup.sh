@@ -31,6 +31,12 @@ else
       openjdk-8-jre \
       elasticsearch \
       libxmlsec1-dev \
+      libjpeg-dev \
+      zlib1g-dev \
+      libtiff-dev \
+      libfreetype6-dev \
+      libwebp-dev \
+      libraqm-dev \
       pkg-config
   }
 
