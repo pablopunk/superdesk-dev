@@ -96,7 +96,7 @@ function extractProjectsFromTasks(projects) {
         const [task] = matches
         const projectFromTask = task.replace(/-.*/, '')
 
-        if (projectsFromTasks.hasOwnProperty(projectFromTask)) {
+        if (projectsFromTasks[projectFromTask] != null) {
           projectsFromTasks[projectFromTask].commits.push(commit)
 
           const existingProject = projectsFromTasks[projectFromTask]
