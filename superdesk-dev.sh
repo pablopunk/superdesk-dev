@@ -82,7 +82,7 @@ function pr {
 }
 
 function timetrack {
-  $HOME/src/superdesk-dev/timetrack/index.js
+  $HOME/src/superdesk-dev/timetrack/index.js $@
 }
 
 function help {
