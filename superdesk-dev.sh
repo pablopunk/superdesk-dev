@@ -57,9 +57,9 @@ function deps {
   if [ ! -z "$1" ]; then
     ls -d $HOME/src/superdesk$1/server && \
       pip3 install -r $HOME/src/superdesk$1/server/requirements.txt && \
-      cd $HOME/src/superdesk$1/client && npm i
+      cd $HOME/src/superdesk$1/client && rm yarn.lock && yarn
   else
-    cd $HOME/src/superdesk-client-core && npm i && \
+    cd $HOME/src/superdesk-client-core && rm yarn.lock && yarn && \
       cd $HOME/src/superdesk/server && pip3 install -r requirements.txt
   fi
 }
