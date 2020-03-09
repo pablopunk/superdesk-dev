@@ -10,61 +10,35 @@ $ ./install.sh
 
 ## Usage
 
+I don't directly use this in the CLI, I usually use this `tmuxinator` session [here](https://github.com/pablopunk/dotfiles/blob/master/tmuxinator/sd.yml)
+
 ```bash
-  - Show this help
+- Show this help
 
-  sd help
+sd help
 
-  - Start the client
+- Start the client with a custom server (e.g sd-master)
 
-  sd client
+sd grunt <server-id>
 
-  - Start the server
+- Kill remaining server processes
 
-  sd server
+sd kill
 
-  - Start the client with a custom server (e.g sd-master)
+Install dependencies for a project (e.g -planning)
 
-  sd grunt <server-id>
+sd deps <-project>
 
-  - Start the client with localhost as a server but with SSL
+- Drop superdesk database
 
-  sd vps
+sd wipe
 
-  - Start the client with sd-master as server
+- Initialize data and populate for a specific project (e.g -belga)
 
-  sd remote
+sd populate <-project>
 
-  - Start the local server for tests
+- Show your commits from all projects (use 'last' argument for last month period)
 
-  sd test
-
-  - Run e2e tests
-
-  sd e2e
-
-  - Run unit tests
-
-  sd unit
-
-  - Kill remaining server processes
-
-  sd kill
-
-  Install dependencies for a project (e.g -planning)
-
-  sd deps <-project>
-
-  - Drop superdesk database
-
-  sd drop_database
-
-  - Initialize data and prepopulate for a specific project (e.g -belga)
-
-  sd prepopulate <-project>
-
-  - Show your commits from all projects (use 'last' argument for last month period)
-
-  sd timetrack <last>
+sd timetrack <last>
 ```
 

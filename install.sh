@@ -2,4 +2,4 @@
 
 sudo ln -sf $PWD/superdesk-dev.sh /usr/local/bin/sd
 
-cd ./timetrack && npm install
+./setup.sh && cd ./timetrack && npm install
