@@ -1,16 +1,14 @@
 #!/bin/bash
 
-
 if [[ "$(uname)" == "Darwin" ]]
 then
   brew tap mongodb/brew
   brew cask install homebrew/cask-versions/adoptopenjdk8
-  brew install mongodb-community elasticsearch@2.4 redis python node jpeg libmagic libxmlsec1
+  brew install mongodb-community elasticsearch@2.4 redis node jpeg libmagic libxmlsec1
   brew services start redis
   brew services start mongodb-community
   brew services start elasticsearch@2.4
-  sudo installer -pkg /Library/Developer/CommandLineTools/Packages/macOS_SDK_headers_for_macOS_10.14.pkg -target /
-  pip3 install --upgrade setuptools pip
+  sudo pip3 install --upgrade setuptools pip
 else
   if [[ ! "$(whoami)" == "root" ]]
   then
