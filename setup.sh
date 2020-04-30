@@ -10,20 +10,14 @@ then
   brew services start elasticsearch@2.4
   sudo pip3 install --upgrade setuptools pip
 else
-  if [[ ! "$(whoami)" == "root" ]]
-  then
-    echo "Rerun this script as sudo"
-    exit 1
-  fi
-
   function add_apt_repositories {
     wget -qO - https://packages.elastic.co/GPG-KEY-elasticsearch | apt-key add -
-    echo "deb https://packages.elastic.co/elasticsearch/2.x/debian stable main" > /etc/apt/sources.list.d/elasticsearch-2.x.list
-    apt update
+    sudo echo "deb https://packages.elastic.co/elasticsearch/2.x/debian stable main" > /etc/apt/sources.list.d/elasticsearch-2.x.list
+    sudo apt update
   }
 
   function install_apt_deps {
-    apt install -y \
+    sudo apt install -y \
       mongodb-server \
       redis-server \
       openjdk-8-jre \
