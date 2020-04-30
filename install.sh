@@ -2,4 +2,10 @@
 
 sudo ln -sf $PWD/superdesk-dev.sh /usr/local/bin/sd
 
-./setup.sh && cd ./timetrack && npm install
+if [[ `uname` == "Linux" ]]; then
+  sudo ./setup.sh
+else
+  ./setup.sh
+fi
+
+cd ./timetrack && yarn
