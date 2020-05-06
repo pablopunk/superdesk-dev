@@ -47,11 +47,9 @@ const getFromDate = (lastMonth = false) => {
   }-${padNumber(lastDayOfLastMonth)}`
 }
 
-async function search(since) {
-  const url = `https://github.com/search?q=author%3Apablopunk+org%3Asuperdesk+created%3A%3E${since}&type=Issues`
+async function search(url, timeline) {
   const res = await got(url)
   const $ = cheerio.load(res.body)
-  const timeline = {}
 
   $('.issue-list-item').each((i, el) => {
     const branch = $(el).find('.text-mono').eq(1).text()
@@ -74,7 +72,13 @@ async function search(since) {
 async function main({ last = false } = {}) {
   const since = getFromDate(last)
   console.log(`From ${since} til today`)
-  const timeline = await search(since)
+
+  let timeline = {}
+  for (const page of [1, 2, 3]) {
+    const url = `https://github.com/search?p=${page}&q=author%3Apablopunk+org%3Asuperdesk+created%3A%3E${since}&type=Issues`
+    timeline = await search(url, timeline)
+  }
+
   console.table(timeline)
 }
 
