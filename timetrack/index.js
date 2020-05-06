@@ -20,7 +20,7 @@ Array.prototype.unique = function() {
   }, [])
 }
 
-const PROJECTS = ['client-core', 'belga', 'planning', 'fi', 'ntb']
+const PROJECTS = ['superdesk-client-core', 'superdesk-belga', 'superdesk-planning', 'superdesk-fi', 'superdesk-ntb', 'newsroom', 'superdesk-cp']
 
 // { since: 2019-07-31, until: 2019-08-31 }
 const getThisMonthRange = (lastMonth = false) => {
@@ -49,7 +49,7 @@ const getThisMonthRange = (lastMonth = false) => {
 
 async function getCommitsForProject(project, { since, until }) {
   const range = `since=${since}&until=${until}`
-  const url = `https://github.com/superdesk/superdesk-${project}/commits?author=pablopunk&${range}`
+  const url = `https://github.com/superdesk/${project}/commits?author=pablopunk&${range}`
   const res = await got(url)
   const $ = cheerio.load(res.body)
   const commits = []
