@@ -4,5 +4,19 @@
     "cheerio": "^1.0.0-rc.3",
     "got": "^9.6.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "husky": "*",
+    "prettier": "*",
+    "pretty-quick": "*"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true,
+    "tabWidth": 2
+  }
 }

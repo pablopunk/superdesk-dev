@@ -2,36 +2,39 @@
 const got = require('got')
 const cheerio = require('cheerio')
 
-/* eslint-disable no-extend-native */
-Array.prototype.flat = function() {
-  return [].concat(...this)
-}
-Array.prototype.equals = function(anotherArray) {
-  return JSON.stringify(this) === JSON.stringify(anotherArray)
-}
-// This method is only for arrays of arrays [[], []...]
-Array.prototype.unique = function() {
-  return this.reduce((acc, curr) => {
-    const exists = acc.find(element => element.equals(curr))
-    if (!exists) {
-      acc.push(curr)
-    }
-    return acc
-  }, [])
-}
+const PROJECTS = [
+  {
+    name: 'Superdesk Core',
+    regex: 'SDESK',
+  },
+  {
+    name: 'Belga',
+    regex: 'SDBELGA',
+  },
+  {
+    name: 'Fidelity',
+    regex: 'SDFID',
+  },
+  {
+    name: 'NTB',
+    regex: 'SDNTB',
+  },
+  {
+    name: 'Canadian Press',
+    regex: 'SDCP',
+  },
+]
 
-const PROJECTS = ['superdesk-client-core', 'superdesk-belga', 'superdesk-planning', 'superdesk-fi', 'superdesk-ntb', 'newsroom', 'superdesk-cp']
+const padNumber = (n) => (n < 10 ? '0' + n : n.toString())
 
-// { since: 2019-07-31, until: 2019-08-31 }
-const getThisMonthRange = (lastMonth = false) => {
+const getFromDate = (lastMonth = false) => {
   const minusOneMonth = lastMonth ? 1 : 0
   const now = new Date()
   const year =
     lastMonth && now.getMonth() === 0
       ? now.getFullYear() - 1
       : now.getFullYear()
-  const month =
-    year !== now.getFullYear() ? 11 : now.getMonth() - minusOneMonth
+  const month = year !== now.getFullYear() ? 11 : now.getMonth() - minusOneMonth
   const lastDayOfLastMonth = new Date(
     month === 0 ? year - 1 : year,
     month === 0 ? 11 : month,
@@ -39,124 +42,40 @@ const getThisMonthRange = (lastMonth = false) => {
   ).getDate()
   const lastDayOfThisMonth = new Date(year, month + 1, 0).getDate()
 
-  return {
-    since: `${month === 0 ? year - 1 : year}-${
-      month === 0 ? 12 : month
-    }-${lastDayOfLastMonth}`,
-    until: `${year}-${month + 1}-${lastDayOfThisMonth}`
-  }
+  return `${month === 0 ? year - 1 : year}-${
+    month === 0 ? 12 : padNumber(month)
+  }-${padNumber(lastDayOfLastMonth)}`
 }
 
-async function getCommitsForProject(project, { since, until }) {
-  const range = `since=${since}&until=${until}`
-  const url = `https://github.com/superdesk/${project}/commits?author=pablopunk&${range}`
+async function search(since) {
+  const url = `https://github.com/search?q=author%3Apablopunk+org%3Asuperdesk+created%3A%3E${since}&type=Issues`
   const res = await got(url)
   const $ = cheerio.load(res.body)
-  const commits = []
-  const promises = []
-  $('.commit').each((i, commit) => {
-    const title = $(commit)
-      .find('.commit-title>a:first-child')
-      .attr('aria-label')
-    const prLink = $(commit)
-      .find('.commit-title>.issue-link')
-      .attr('href')
-    if (prLink) {
-      promises.push(
-        got(prLink).then(prRes => {
-          const $pr = cheerio.load(prRes.body)
-          const description = $pr('.comment-body')
-            .eq(0)
-            .text()
-          const date = new Date(
-            $(commit)
-              .find('relative-time')
-              .attr('datetime')
-          )
-          commits.push({ title, date, description })
-        })
-      )
-    }
-    return {}
-  })
+  const timeline = {}
 
-  await Promise.all(promises)
+  $('.issue-list-item').each((i, el) => {
+    const branch = $(el).find('.text-mono').eq(1).text()
+    const date = $(el).find('relative-time').attr('datetime').slice(0, 10)
 
-  return commits
-}
-
-function extractProjectsFromTasks(projects) {
-  const projectsFromTasks = {}
-
-  projects.map(({ name, commits }) => {
-    commits.map(commit => {
-      const matches = commit.description.match(/SD.*[-]\d+/)
-
-      if (matches) {
-        const [task] = matches
-        const projectFromTask = task.replace(/-.*/, '')
-
-        if (projectsFromTasks[projectFromTask] != null) {
-          projectsFromTasks[projectFromTask].commits.push(commit)
-
-          const existingProject = projectsFromTasks[projectFromTask]
-
-          if (existingProject.latest.getTime() > commit.date.getTime()) {
-            projectsFromTasks[projectFromTask].latest = commit.date
-          }
+    for (const project of PROJECTS) {
+      if (new RegExp(project.regex).test(branch)) {
+        if (timeline[date] != null && Array.isArray(timeline[date])) {
+          timeline[date].push(project.name)
         } else {
-          projectsFromTasks[projectFromTask] = { commits: [commit] }
-          projectsFromTasks[projectFromTask].latest = commit.date
+          timeline[date] = [project.name]
         }
       }
-    })
+    }
   })
 
-  return projectsFromTasks
-}
-
-function flatCommits(projects) {
-  const unflattenCommits = Object.entries(
-    projects
-  ).map(([project, { commits }]) =>
-    commits.map(commit => ({ ...commit, project }))
-  )
-  return unflattenCommits.flat()
-}
-
-function getTimelineFromProjects(projects) {
-  const allComits = flatCommits(projects)
-  const commitsInOrder = allComits.sort(
-    (c1, c2) => c1.date.getTime() - c2.date.getTime()
-  )
-  const timeline = commitsInOrder
-    .map(({ date, project }) => [date.toLocaleDateString(), project])
-    .unique()
-  const timelineObj = {}
-  for (const [date, project] of timeline) {
-    timelineObj[date] = project
-  }
-  return timelineObj
+  return timeline
 }
 
 async function main({ last = false } = {}) {
-  const range = getThisMonthRange(last)
-  console.log(`From ${range.since} until ${range.until}`)
-  const getProjectPromises = PROJECTS.map(async project => {
-    const commits = await getCommitsForProject(project, range)
-
-    return { name: project, commits }
-  })
-
-  Promise.all(getProjectPromises).then(projects => {
-    const projectsFromTasks = extractProjectsFromTasks(projects)
-    const timeline = getTimelineFromProjects(projectsFromTasks)
-    if (Object.keys(timeline).length === 0) {
-      console.log('Empty')
-    } else {
-      console.table(timeline)
-    }
-  })
+  const since = getFromDate(last)
+  console.log(`From ${since} til today`)
+  const timeline = await search(since)
+  console.table(timeline)
 }
 
 let args = process.argv.slice(2)
