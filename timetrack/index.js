@@ -16,6 +16,10 @@ const PROJECTS = [
     regex: 'SDFID',
   },
   {
+    name: 'ANSA',
+    regex: 'SDANSA',
+  },
+  {
     name: 'NTB',
     regex: 'SDNTB',
   },
