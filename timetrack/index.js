@@ -4,7 +4,7 @@ const cheerio = require('cheerio')
 
 const PROJECTS = [
   {
-    name: 'Superdesk Core',
+    name: 'Superdesk',
     regex: 'SDESK',
   },
   {
