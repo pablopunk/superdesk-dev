@@ -4,10 +4,10 @@ if [[ "$(uname)" == "Darwin" ]]
 then
   brew tap mongodb/brew
   brew cask install homebrew/cask-versions/adoptopenjdk8
-  brew install mongodb-community elasticsearch@2.4 redis node jpeg libmagic libxmlsec1 zlib lzlib
+  brew install mongodb-community elasticsearch redis jpeg libmagic libxmlsec1 zlib lzlib pkg-config
   brew services start redis
   brew services start mongodb-community
-  brew services start elasticsearch@2.4
+  brew services start elasticsearch
   sudo pip3 install --upgrade setuptools pip
 else
   if [[ ! "$(whoami)" == "root" ]]
