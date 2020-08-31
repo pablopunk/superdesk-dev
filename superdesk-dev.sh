@@ -32,7 +32,8 @@ function wipe {
 }
 
 function deps {
-  cd $HOME/src/superdesk-core && git fetch upstream && git reset --hard upstream/master && pip3 install -r requirements.txt --user
+  sudo echo
+  cd $HOME/src/superdesk-core && git fetch upstream && git reset --hard upstream/master && sudo chown -R pablopunk:staff * && pip3 install -r requirements.txt --user
   cd $HOME/src/superdesk-client-core && rm -rf node_modules yarn.lock && yarn && yarn link
   if [ ! -z "$1" ]; then
     ls -d $HOME/src/superdesk$1/server || ( echo "$1 doesn't appear to be a project" && exit 1 )
