@@ -45,10 +45,14 @@ function deps {
 }
 
 function populate {
-  ls -d $HOME/src/superdesk$1/server && \
-    python3 $HOME/src/superdesk$1/server/manage.py app:initialize_data && \
-    python3 $HOME/src/superdesk$1/server/manage.py app:prepopulate && \
-    python3 $HOME/src/superdesk$1/server/manage.py app:index_from_mongo --all
+  if [ ! -d $HOME/src/superdesk$1/server ]; then
+    echo "Server '$1' not found in $HOME/src/superdesk$1/server"
+    exit 1
+  fi
+
+  python3 $HOME/src/superdesk$1/server/manage.py app:initialize_data
+  python3 $HOME/src/superdesk$1/server/manage.py app:prepopulate
+  python3 $HOME/src/superdesk$1/server/manage.py app:index_from_mongo --all
 }
 
 function pr {
