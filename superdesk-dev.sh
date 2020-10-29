@@ -33,7 +33,7 @@ function wipe {
 
 function deps {
   sudo echo
-  cd $HOME/src/superdesk-core && git fetch upstream && git reset --hard upstream/master && sudo chown -R pablopunk:staff * && pip3 install -r requirements.txt --user
+  cd $HOME/src/superdesk-core && git fetch upstream && git reset --hard upstream/develop && sudo chown -R pablopunk:staff * && pip3 install -r requirements.txt --user
   cd $HOME/src/superdesk-client-core && rm -rf node_modules yarn.lock && yarn && yarn link
   if [ ! -z "$1" ]; then
     ls -d $HOME/src/superdesk$1/server || ( echo "$1 doesn't appear to be a project" && exit 1 )
@@ -43,6 +43,15 @@ function deps {
     cd $HOME/src/superdesk/server && pip3 install -r requirements.txt
     cd $HOME/src/superdesk/client && rm -rf node_modules yarn.lock && yarn && yarn link superdesk-core
   fi
+}
+
+function user {
+  if [ ! -d $HOME/src/superdesk$1/server ]; then
+    echo "Server '$1' not found in $HOME/src/superdesk$1/server"
+    exit 1
+  fi
+
+  python3 $HOME/src/superdesk$1/server/manage.py users:create -u pablovarela -p Pablo1234 -e 'pablo@pablopunk.com' --admin
 }
 
 function populate {
