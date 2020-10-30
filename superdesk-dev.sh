@@ -54,6 +54,7 @@ function user {
   python3 $HOME/src/superdesk$1/server/manage.py users:create -u pablovarela -p Pablo1234 -e 'pablo@pablopunk.com' --admin
 }
 
+
 function populate {
   if [ ! -d $HOME/src/superdesk$1/server ]; then
     echo "Server '$1' not found in $HOME/src/superdesk$1/server"
@@ -63,6 +64,7 @@ function populate {
   python3 $HOME/src/superdesk$1/server/manage.py app:initialize_data
   python3 $HOME/src/superdesk$1/server/manage.py app:prepopulate
   python3 $HOME/src/superdesk$1/server/manage.py app:index_from_mongo --all
+  user
 }
 
 function pr {
