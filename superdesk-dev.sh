@@ -33,15 +33,25 @@ function wipe {
 
 function deps {
   sudo echo
-  cd $HOME/src/superdesk-core && git fetch upstream && git reset --hard upstream/develop && sudo chown -R pablopunk:staff * && pip3 install -r requirements.txt --user
-  cd $HOME/src/superdesk-client-core && rm -rf node_modules yarn.lock && yarn && yarn link
+  cd $HOME/src/superdesk-core && git fetch upstream &&\
+    git reset --hard upstream/develop &&\
+    python3 -m venv ./env &&\
+    . ./env/bin/activate &&\
+    pip install -r dev-requirements.txt
+  cd $HOME/src/superdesk-client-core && rm -rf node_modules yarn.lock package-lock.json && npm i && npm link
   if [ ! -z "$1" ]; then
     ls -d $HOME/src/superdesk$1/server || ( echo "$1 doesn't appear to be a project" && exit 1 )
-    pip3 install -r $HOME/src/superdesk$1/server/requirements.txt
-    cd $HOME/src/superdesk$1/client && rm -rf node_modules yarn.lock && yarn && yarn link superdesk-core
+    cd $HOME/src/superdesk$1/server &&\
+      python3 -m venv ./env &&\
+      . ./env/bin/activate &&\
+      pip install -r requirements.txt
+    cd $HOME/src/superdesk$1/client && rm -rf node_modules yarn.lock package-lock.json && npm i && npm link superdesk-core
   else
-    cd $HOME/src/superdesk/server && pip3 install -r requirements.txt
-    cd $HOME/src/superdesk/client && rm -rf node_modules yarn.lock && yarn && yarn link superdesk-core
+    cd $HOME/src/superdesk/server &&\
+      python3 -m venv ./env &&\
+      . ./env/bin/activate &&\
+      pip install -r requirements.txt
+    cd $HOME/src/superdesk/client && rm -rf node_modules yarn.lock package-lock.json && npm i && npm link superdesk-core
   fi
 }
 
