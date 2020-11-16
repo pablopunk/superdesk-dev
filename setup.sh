@@ -2,7 +2,7 @@
 
 if [[ "$(uname)" == "Darwin" ]]
 then
-  brew install jpeg libmagic libxmlsec1 zlib lzlib pkg-config
+  brew install jpeg libmagic libxmlsec1 zlib lzlib pkg-config docker-compose
 else
   if [[ ! "$(whoami)" == "root" ]]
   then
@@ -27,6 +27,10 @@ else
       libraqm-dev \
       pkg-config
   }
+
+  echo
+  echo "Please install docker-compose manually"
+  echo
 
   add_apt_repositories
   install_apt_deps
