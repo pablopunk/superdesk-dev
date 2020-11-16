@@ -2,13 +2,7 @@
 
 if [[ "$(uname)" == "Darwin" ]]
 then
-  brew tap mongodb/brew
-  brew cask install homebrew/cask-versions/adoptopenjdk8
-  brew install mongodb-community elasticsearch redis jpeg libmagic libxmlsec1 zlib lzlib pkg-config
-  brew services start redis
-  brew services start mongodb-community
-  brew services start elasticsearch
-  sudo pip3 install --upgrade setuptools pip
+  brew install jpeg libmagic libxmlsec1 zlib lzlib pkg-config
 else
   if [[ ! "$(whoami)" == "root" ]]
   then
@@ -24,10 +18,6 @@ else
 
   function install_apt_deps {
     apt install -y \
-      mongodb-server \
-      redis-server \
-      openjdk-8-jre \
-      elasticsearch \
       libxmlsec1-dev \
       libjpeg-dev \
       zlib1g-dev \
