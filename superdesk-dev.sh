@@ -11,20 +11,8 @@ function is_linux {
   [ "$linux" = "1"  ]
 }
 
-function open_browser {
-  cmd=open
-  is_linux && cmd=xdg-open
-  [ -z "$DISPLAY" ] && cmd=echo
-  $cmd http://localhost:9000
-}
-
 function grunt {
   npx grunt --server=https://$1.test.superdesk.org/api --ws=wss://$1.test.superdesk.org/ws
-}
-
-function kill {
-  ps aux | grep ws.py | awk '{print $2}' | xargs kill -9
-  killall gunicorn
 }
 
 function wipe {
