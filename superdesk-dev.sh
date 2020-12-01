@@ -20,7 +20,6 @@ function wipe {
 }
 
 function deps {
-  sudo echo
   cd $HOME/src/superdesk-core && git fetch upstream &&\
     git reset --hard upstream/develop &&\
     python3 -m venv ./env &&\
