@@ -27,6 +27,10 @@ const PROJECTS = [
     name: 'Canadian Press',
     regex: 'SDCP',
   },
+  {
+    name: 'STT Newshub',
+    regex: 'STTNHUB',
+  },
 ]
 
 const padNumber = (n) => (n < 10 ? '0' + n : n.toString())
