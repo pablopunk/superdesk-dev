@@ -18,19 +18,17 @@ else
 
   function install_apt_deps {
     apt install -y \
-      libxmlsec1-dev \
-      libjpeg-dev \
-      zlib1g-dev \
-      libtiff-dev \
+      docker \
+      docker-compose \
       libfreetype6-dev \
-      libwebp-dev \
+      libjpeg-dev \
       libraqm-dev \
-      pkg-config
+      libtiff-dev \
+      libwebp-dev \
+      libxmlsec1-dev \
+      pkg-config \
+      zlib1g-dev
   }
-
-  echo
-  echo "Please install docker-compose manually"
-  echo
 
   add_apt_repositories
   install_apt_deps
