@@ -3,6 +3,10 @@
 # *nix
 [[ "$(uname)" = "Linux" ]] && linux=1 || mac=1
 
+function py {
+  ~/.pyenv/versions/3.5.9/bin/python3 $@
+}
+
 function is_mac {
   [ "$mac" = "1"  ]
 }
@@ -19,23 +23,40 @@ function wipe {
   mongo --eval "db.dropDatabase();" superdesk
 }
 
+function git_clone {
+  if [[ ! -d ~/src/$1 ]]; then
+    git clone git@github.com:pablopunk/$1 ~/src/$1 && cd ~/src/$1 && git remote add upstream https://github.com/superdesk/$1
+  fi
+}
+
+function clone {
+  mkdir -p ~/src
+  git_clone superdesk
+  git_clone superdesk-core
+  git_clone superdesk-client-core
+  git_clone newsroom
+}
+
 function deps {
   cd $HOME/src/superdesk-core && git fetch upstream &&\
     git reset --hard upstream/develop &&\
-    python3 -m venv ./env &&\
+    py -m venv ./env &&\
     . ./env/bin/activate &&\
+    pip install --upgrade pip &&\
     pip install -r dev-requirements.txt
+
   cd $HOME/src/superdesk-client-core && rm -rf node_modules yarn.lock package-lock.json && npm i && npm link
+
   if [ ! -z "$1" ]; then
     ls -d $HOME/src/superdesk$1/server || ( echo "$1 doesn't appear to be a project" && exit 1 )
     cd $HOME/src/superdesk$1/server &&\
-      python3 -m venv ./env &&\
+      py -m venv ./env &&\
       . ./env/bin/activate &&\
       pip install -r requirements.txt
     cd $HOME/src/superdesk$1/client && rm -rf node_modules yarn.lock package-lock.json && npm i && npm link superdesk-core
   else
     cd $HOME/src/superdesk/server &&\
-      python3 -m venv ./env &&\
+      py -m venv ./env &&\
       . ./env/bin/activate &&\
       pip install -r requirements.txt
     cd $HOME/src/superdesk/client && rm -rf node_modules yarn.lock package-lock.json && npm i && npm link superdesk-core
@@ -48,7 +69,7 @@ function user {
     exit 1
   fi
 
-  python3 $HOME/src/superdesk$1/server/manage.py users:create -u pablovarela -p Pablo1234 -e 'pablo@pablopunk.com' --admin
+  py $HOME/src/superdesk$1/server/manage.py users:create -u pablovarela -p Pablo1234 -e 'pablo@pablopunk.com' --admin
 }
 
 
@@ -58,9 +79,9 @@ function populate {
     exit 1
   fi
 
-  python3 $HOME/src/superdesk$1/server/manage.py app:initialize_data
-  python3 $HOME/src/superdesk$1/server/manage.py app:prepopulate
-  python3 $HOME/src/superdesk$1/server/manage.py app:index_from_mongo --all
+  py $HOME/src/superdesk$1/server/manage.py app:initialize_data
+  py $HOME/src/superdesk$1/server/manage.py app:prepopulate
+  py $HOME/src/superdesk$1/server/manage.py app:index_from_mongo --all
   user
 }
 
