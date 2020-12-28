@@ -31,10 +31,14 @@ function git_clone {
 
 function clone {
   mkdir -p ~/src
-  git_clone superdesk
-  git_clone superdesk-core
-  git_clone superdesk-client-core
   git_clone newsroom
+  git_clone superdesk
+  git_clone superdesk-belga
+  git_clone superdesk-client-core
+  git_clone superdesk-core
+  git_clone superdesk-cp
+  git_clone superdesk-planning
+  git_clone superdesk-stt
 }
 
 function deps {
