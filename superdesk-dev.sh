@@ -4,7 +4,7 @@
 [[ "$(uname)" = "Linux" ]] && linux=1 || mac=1
 
 function py {
-  ~/.pyenv/versions/3.5.9/bin/python3 $@
+  ~/.pyenv/versions/3.9-dev/bin/python3 $@
 }
 
 function is_mac {
@@ -37,6 +37,7 @@ function clone {
   git_clone superdesk-client-core
   git_clone superdesk-core
   git_clone superdesk-cp
+  git_clone superdesk-ntb
   git_clone superdesk-planning
   git_clone superdesk-stt
 }
