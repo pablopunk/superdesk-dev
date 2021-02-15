@@ -4,7 +4,7 @@
 [[ "$(uname)" = "Linux" ]] && linux=1 || mac=1
 
 function py {
-  ~/.pyenv/versions/3.9-dev/bin/python3 $@
+  ~/.pyenv/versions/3.6-dev/bin/python3 $@
 }
 
 function is_mac {
